@@ -1,13 +1,28 @@
-#include "stm32f1xx.h"
+#include "stm32f10x.h"
 
-int main(void) {
-    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN; 
-    GPIOC->CRH &= ~(0xF << 20);
-    GPIOC->CRH |=  (0x1 << 20);
+void delay_ms (uint16_t t)
 
-    while (1) {
-        GPIOC->ODR ^= (1 << 13);
-        for (int i=0; i<500000; i++);
-    }
+int main()
+{
+    RCC->APB2ENR |= (1<<2);
+    GPIOA->CRL &=~(0xF << 28);
+    GPIOA->CRL |=(0x2 << 28);
+    
+while(1)
+{
+
+GPIOA->BRR=(1<<7);
+delay_ms(200);
+GPIOA->BSRR =(1<<7);
+delay_ms(200);
+}
 }
 
+void delay_ms (uint16_t t)
+{
+    for(uint16_t t i=0;i<t;i++)
+          for (uint32_t j=0;j<6000;j++)
+
+        __asm("nop");
+            
+}
